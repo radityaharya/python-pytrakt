@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
 """Interfaces to all of the User objects offered by the Trakt.tv API"""
+
 from collections import namedtuple
+from dataclasses import dataclass
+from typing import Any, Optional
 
 from trakt.core import delete, get, post
 from trakt.mixins import IdsMixin
@@ -9,8 +12,11 @@ from trakt.people import Person
 from trakt.tv import TVEpisode, TVSeason, TVShow
 from trakt.utils import slugify
 
-__author__ = 'Jon Nappi'
-__all__ = ['User', 'UserList', 'Request', 'follow', 'get_all_requests',
+__author__ = 'Jon Nappi, Elan Ruusamäe'
+__all__ = ['User', 'UserList',
+           'WatchlistMovieEntry',
+           'WatchlistShowEntry',
+           'Request', 'follow', 'get_all_requests',
            'get_user_settings', 'unfollow']
 
 
@@ -24,6 +30,31 @@ class Request(namedtuple('Request', ['id', 'requested_at', 'user'])):
     @delete
     def deny(self):
         yield 'users/requests/{id}'.format(id=self.id)
+
+
+@dataclass
+class WatchlistEntry:
+    rank: str
+    id: int
+    listed_at: str
+    notes: Optional[str]
+    type: str
+
+
+@dataclass
+class WatchlistMovieEntry(Movie, WatchlistEntry):
+    movie: Any
+
+    def __post_init__(self):
+        super().__init__(**self.movie)
+
+
+@dataclass
+class WatchlistShowEntry(TVShow, WatchlistEntry):
+    show: Any
+
+    def __post_init__(self):
+        super().__init__(**self.show)
 
 
 @post
