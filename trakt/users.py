@@ -351,9 +351,8 @@ class User:
             )
             self._show_watchlist = []
             for show in data:
-                show_data = show.pop('show')
-                show_data.update(show)
-                self._show_watchlist.append(TVShow(**show_data))
+                wl = WatchlistShowEntry(**show)
+                self._show_watchlist.append(wl)
             yield self._show_watchlist
         yield self._show_watchlist
 
