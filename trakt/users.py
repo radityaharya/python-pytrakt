@@ -368,8 +368,8 @@ class User:
             )
             self._movie_watchlist = []
             for movie in data:
-                mov = movie.pop('movie')
-                self._movie_watchlist.append(Movie(**mov))
+                wl = WatchlistMovieEntry(**movie)
+                self._movie_watchlist.append(wl)
             yield self._movie_watchlist
         yield self._movie_watchlist
 
