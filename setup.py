@@ -17,7 +17,7 @@ description = ('Pythonic abstraction layer for easier scripting of the '
 
 setup(
     name='pytrakt',
-    version=trakt.__version__,
+    version="3.4.23"
     description=description,
     long_description='\n'.join([readme, history]),
     author='Elan Ruusamäe',
