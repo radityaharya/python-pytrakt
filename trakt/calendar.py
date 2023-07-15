@@ -131,7 +131,9 @@ class MovieCalendar(Calendar):
         for movie in data:
             m_data = movie.get('movie', {})
             released = movie.get('released', None)
-            self._calendar.append(Movie(released=released, **m_data))
+            del m_data['released']  # remove 'released' key from m_data
+            # pass released as separate argument
+            self._calendar.append(Movie(**m_data, released=released))
 
         self._calendar = sorted(self._calendar, key=lambda x: x.released)
 
